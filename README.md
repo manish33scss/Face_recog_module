@@ -1,4 +1,4 @@
-# Project Title
+# Title
 
 Face Recognition with Facial landmarks.
 
