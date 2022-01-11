@@ -10,7 +10,7 @@ import os
 import pickle
 import time
 from trainer import TrainRecognizer
-
+import json
 from recognizer import Recognizer
 
 
@@ -20,11 +20,19 @@ print(cv2.__version__)
 
 font=cv2.FONT_HERSHEY_SIMPLEX
 
-
+results  = []
 tr = TrainRecognizer()
 r = Recognizer()
 
-
+def json_landmarks(frame_counter, landmarks_list):
+    for face_landmarks in landmarks_list:
+        results.append({
+           "FrameNo." : frame_counter,
+            "Keypoints" : face_landmarks
+    
+        })
+    with open("results.json", "w") as f:
+        f.write(json.dumps(results))
 
 if __name__ == "__main__":
     
@@ -32,6 +40,7 @@ if __name__ == "__main__":
     # for training images
     
     train = TrainRecognizer()
+    #path to training images
     path = r"D:\Work\Codes\face_recogmition_api\demoImages-master\known"
     
     path_pkl = train.train(path)
@@ -40,21 +49,19 @@ if __name__ == "__main__":
     
     #path_pkl = r"D:\Work\Codes\face_recogmition_api\train.pkl"
     cap = cv2.VideoCapture(r"D:\Work\Codes\face_recogmition_api\unknown\donald.gif")
-    
+    frame_counter = 0
     while True:
     
         _,frame=cap.read()
         frameSmall=cv2.resize(frame,(0,0),fx=.25,fy=.25)
         frameRGB=cv2.cvtColor(frameSmall,cv2.COLOR_BGR2RGB)
         
-        #class
-    # =============================================================================
-    #     facePositions=face_recognition.face_locations(frameRGB,model='cnn')
-    #     allEncodings=face_recognition.face_encodings(frameRGB,facePositions)
-    # =============================================================================
+
         
         #r = Recognizer.recognizer(frame)
-        Names,Encodings, facePositions, allEncodings = r.recognize(frameRGB, path_pkl )
+        Names,Encodings, facePositions, allEncodings,landmarks = r.recognize(frameRGB, path_pkl )
+        frame_counter += 1
+        json_landmarks(frame_counter, landmarks)
         
         for (top,right,bottom,left),face_encoding in zip(facePositions,allEncodings):
             name='Unkown Person'

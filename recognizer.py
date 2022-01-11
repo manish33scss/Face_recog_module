@@ -15,12 +15,6 @@ import pickle
 Encodings=[]
 Names=[]
 
-
-
-
-
-
-
 class Recognizer:
     
     
@@ -36,5 +30,6 @@ class Recognizer:
             self.Encodings=pickle.load(f)
         facePositions=face_recognition.face_locations(frame,model='cnn')
         allEncodings=face_recognition.face_encodings(frame,facePositions)
+        landmarks = face_recognition.face_landmarks(frame, model = "large")
             
-        return self.Names, self.Encodings, facePositions, allEncodings
+        return self.Names, self.Encodings, facePositions, allEncodings, landmarks
