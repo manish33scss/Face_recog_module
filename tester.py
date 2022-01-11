@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
         
         #r = Recognizer.recognizer(frame)
-        Names,Encodings, facePositions, allEncodings = r.recognize(frameRGB, path_pkl )
+        Names,Encodings, facePositions, allEncodings,landmarks = r.recognize(frameRGB, path_pkl )
         frame_counter += 1
         json_landmarks(frame_counter, landmarks)
         
