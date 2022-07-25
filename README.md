@@ -15,9 +15,4 @@ Face Recognition with Facial landmarks.
     
     (i) First train with images.
   
-    (ii) After training pkl file can be used for testing the module. 
-
-
-
-
-
+    (ii) After training pkl file can be used for testing the module.
